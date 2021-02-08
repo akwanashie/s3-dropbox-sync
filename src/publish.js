@@ -9,19 +9,10 @@ const s3Bucket = 'akwanashie-shared-files'
 const maxFileSize = 157286400;
 
 async function getDropboxFiles() {
-  // const folderList = (await dropboxClient.filesListFolder({ path: dropboxFolderPath })).result.entries;
-  // return folderList.map(fileInfo => fileInfo.name);
-  return [ 'ccomments2.png' ];
+  const folderList = (await dropboxClient.filesListFolder({ path: dropboxFolderPath })).result.entries;
+  return folderList.map(fileInfo => fileInfo.name);
+  // return [ 'ccomments2.png' ];
 }
-
-// async function saveFileToDropbox(content, fileName) {
-//   const data = await dropboxClient.filesUpload({
-//     contents: content,
-//     path: `${dropboxFolderPath}/${fileName}`,
-//     mode: { '.tag': 'overwrite' }
-//   });
-//  return data.result.path_lower;
-// }
 
 async function saveToDropbox(files) {
   if (files === []) {
@@ -30,12 +21,13 @@ async function saveToDropbox(files) {
 
   const nextFile = files.shift();
   const s3File = await downloadFromS3(nextFile);
-  await dropboxClient.filesUpload({
+  const data = await dropboxClient.filesUpload({
     contents: s3File.Body,
     path: `${dropboxFolderPath}/${nextFile}`,
     mode: { '.tag': 'overwrite' }
   });
 
+  conssole.log(`Saved ${data.result.path_lower} to Dropbox`)
   await saveToDropbox(files);
 }
 
@@ -64,5 +56,4 @@ async function run() {
 }
 
 run()
-  .then(console.log)
   .catch(console.log);
