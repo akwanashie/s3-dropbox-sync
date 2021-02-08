@@ -11,23 +11,24 @@ const maxFileSize = 157286400;
 async function getDropboxFiles() {
   const folderList = (await dropboxClient.filesListFolder({ path: dropboxFolderPath })).result.entries;
   return folderList.map(fileInfo => fileInfo.name);
-  // return [ 'ccomments2.png' ];
 }
 
 async function saveToDropbox(files) {
-  if (files === []) {
+  if (files.length == 0) {
     return;
   }
 
   const nextFile = files.shift();
   const s3File = await downloadFromS3(nextFile);
+  console.log(`Downloaded ${nextFile} from s3`);
+
   const data = await dropboxClient.filesUpload({
     contents: s3File.Body,
     path: `${dropboxFolderPath}/${nextFile}`,
     mode: { '.tag': 'overwrite' }
   });
+  console.log(`Saved ${data.result.path_lower} to Dropbox`);
 
-  conssole.log(`Saved ${data.result.path_lower} to Dropbox`)
   await saveToDropbox(files);
 }
 
