@@ -56,5 +56,9 @@ async function run() {
   return await saveToDropbox(files);
 }
 
-run()
-  .catch(console.log);
+module.exports = {
+  handler: async function(event) {
+    return await run()
+      .catch(console.log);
+  }
+}

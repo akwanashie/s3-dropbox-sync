@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-cdk": "^1.89.0",
     "aws-sdk": "^2.839.0",
     "dropbox": "^9.0.0"
   }

@@ -1,0 +1,17 @@
+{
+  "name": "deployment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dploy-lambda.js",
+  "dependencies": {
+    "@aws-cdk/aws-iam": "^1.89.0",
+    "@aws-cdk/aws-lambda": "^1.89.0",
+    "aws-cdk": "^1.89.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
