@@ -8,7 +8,8 @@ class LambdaStack extends cdk.Stack {
     super(app, id);
 
     const lambdaFn = new lambda.Function(this, 'S3ToDropBoxSync', {
-      code: lambda.Code.fromAsset(path.join(__dirname, '/../s3-dropbox-sync')),
+      functionName: 's3-dropbox-sync',
+      code: lambda.Code.fromAsset(path.join(__dirname, '/../lib')),
       handler: 'publish.handler',
       timeout: cdk.Duration.seconds(300),
       runtime: lambda.Runtime.NODEJS_10_X,
